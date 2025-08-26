@@ -1,0 +1,74 @@
+/* --- General Body Styles --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa; /* A light grey background */
+    color: #333; /* Dark grey text for readability */
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Centered Main Content Area --- */
+main {
+    max-width: 900px;
+    margin: 20px auto; /* Centers the content on the page */
+    padding: 0 20px;
+}
+
+/* --- Header Banner --- */
+header {
+    background-color: #343a40; /* Dark background for the banner */
+    color: white;
+    text-align: center;
+    padding: 2rem 0; /* 'rem' is a flexible unit for sizing */
+}
+
+/* --- Section Layouts (Flexbox Magic!) --- */
+.top-half, .bottom-half {
+    display: flex; /* This is what creates the column layout! */
+    gap: 40px; /* Adds space between the columns */
+    align-items: center; /* Vertically aligns items in the middle */
+    padding: 40px 0;
+    border-bottom: 1px solid #e0e0e0; /* A faint line to separate sections */
+}
+
+/* --- Profile Picture Styling --- */
+.profile-picture-container {
+    flex: 1; /* Assigns 1 part of the available space */
+    text-align: center;
+}
+
+.profile-picture-container img {
+    width: 200px;  /* This fixes your "too big" image problem! */
+    height: 200px;
+    border-radius: 50%; /* This makes the image a circle */
+    object-fit: cover; /* Prevents the image from being squished */
+    border: 5px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow */
+}
+
+/* --- About Me Container Styling --- */
+.about-me-container {
+    flex: 2; /* Assigns 2 parts of the space (making it wider) */
+}
+
+/* --- Bottom Half Containers --- */
+.links-container, .updates-container {
+    flex: 1; /* Gives each container equal space */
+}
+
+/* --- Links List Styling --- */
+.links-container ul {
+    list-style-type: none; /* Removes the bullet points */
+    padding: 0;
+}
+
+.links-container a {
+    text-decoration: none;
+    color: #007bff; /* A standard blue link color */
+    font-weight: bold;
+}
+
+.links-container a:hover {
+    text-decoration: underline; /* Adds an underline when you hover over a link */
+}
