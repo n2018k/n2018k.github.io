@@ -49,12 +49,16 @@ header {
 
 /* --- About Me Container Styling --- */
 .about-me-container {
-    flex: 2; /* Assigns 2 parts of the space (making it wider) */
+    flex: 3; /* CHANGED: Assigns 3 parts of space, giving text more room */
 }
 
 /* --- Bottom Half Containers --- */
-.links-container, .updates-container {
-    flex: 1; /* Gives each container equal space */
+.links-container {
+    flex: 1; /* NEW: Aligns with the profile picture column */
+}
+
+.updates-container {
+    flex: 3; /* NEW: Aligns with the About Me column */
 }
 
 /* --- Links List Styling --- */
