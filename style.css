@@ -49,7 +49,7 @@ header {
 
 /* --- About Me Container Styling --- */
 .about-me-container {
-    flex: 3; /* CHANGED: Assigns 3 parts of space, giving text more room */
+    flex: 5; /* CHANGED: Assigns 5 parts of space, giving text more room */
 }
 
 /* --- Bottom Half Containers --- */
