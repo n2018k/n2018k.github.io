@@ -2,77 +2,134 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f8f9fa; /* A light grey background */
-    color: #333; /* Dark grey text for readability */
+    background-color: #f8f9fa;
+    color: #333;
     margin: 0;
     padding: 0;
 }
 
 /* --- Centered Main Content Area --- */
-main {
+.content-wrapper {
     max-width: 900px;
-    margin: 20px auto; /* Centers the content on the page */
+    margin: 20px auto;
     padding: 0 20px;
 }
 
 /* --- Header Banner --- */
 header {
-    background-color: #343a40; /* Dark background for the banner */
+    background-color: #343a40;
     color: white;
     text-align: center;
-    padding: 2rem 0; /* 'rem' is a flexible unit for sizing */
+    padding: 2rem 0;
 }
 
-/* --- Section Layouts (Flexbox Magic!) --- */
+/* --- Navigation Bar Styles --- */
+nav {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li a {
+    display: block;
+    color: #333;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #f2f2f2;
+    color: #007bff;
+}
+
+nav ul li a.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+/* --- Section Layouts for Homepage --- */
 .top-half, .bottom-half {
-    display: flex; /* This is what creates the column layout! */
-    gap: 40px; /* Adds space between the columns */
-    align-items: center; /* Vertically aligns items in the middle */
+    display: flex;
+    gap: 40px;
+    align-items: center;
     padding: 40px 0;
-    border-bottom: 1px solid #e0e0e0; /* A faint line to separate sections */
+    border-bottom: 1px solid #e0e0e0;
 }
 
 /* --- Profile Picture Styling --- */
 .profile-picture-container {
-    flex: 1; /* Assigns 1 part of the available space */
+    flex: 1;
     text-align: center;
 }
 
 .profile-picture-container img {
-    width: 200px;  /* This fixes your "too big" image problem! */
+    width: 200px;
     height: 200px;
-    border-radius: 50%; /* This makes the image a circle */
-    object-fit: cover; /* Prevents the image from being squished */
+    border-radius: 50%;
+    object-fit: cover;
     border: 5px solid white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* --- About Me Container Styling --- */
 .about-me-container {
-    flex: 5; /* CHANGED: Assigns 5 parts of space, giving text more room */
+    flex: 5; /* CHANGED: Assigns 5 parts of space */
 }
 
 /* --- Bottom Half Containers --- */
 .links-container {
-    flex: 1; /* NEW: Aligns with the profile picture column */
+    flex: 1;
 }
 
 .updates-container {
-    flex: 3; /* NEW: Aligns with the About Me column */
+    flex: 5; /* CHANGED: Aligns with the About Me column */
 }
 
 /* --- Links List Styling --- */
 .links-container ul {
-    list-style-type: none; /* Removes the bullet points */
+    list-style-type: none;
     padding: 0;
 }
 
 .links-container a {
     text-decoration: none;
-    color: #007bff; /* A standard blue link color */
+    color: #007bff;
     font-weight: bold;
 }
 
 .links-container a:hover {
-    text-decoration: underline; /* Adds an underline when you hover over a link */
+    text-decoration: underline;
 }
+
+/* --- About Page Specific Styles --- */
+.page-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.page-content {
+    padding: 20px 0;
+}
+
+.page-content h2 {
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+

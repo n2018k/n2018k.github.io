@@ -4,20 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Name - Personal Website</title>
+    <!-- This line links to your stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- 1. Top Banner -->
     <header>
         <h1>Hello There 👋</h1>
     </header>
 
-    <main>
+    <!-- 2. Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <!-- We will add more tabs like 'Publications' and 'Blog' here later -->
+        </ul>
+    </nav>
+
+    <!-- 3. Main Content Area -->
+    <main class="content-wrapper">
+        <!-- Top Half: Profile and About Me -->
         <section class="top-half">
+            <!-- Left Column: Profile Picture -->
             <div class="profile-picture-container">
-                <img src="IMAGES/IMG_7952.jpeg" alt="Naman Katyal">
+                <img src="images/IMG_7952.jpeg" alt="Your Name">
             </div>
 
+            <!-- Right Column: About Me Text -->
             <div class="about-me-container">
                 <h2>About Me</h2>
                 <p>
@@ -26,7 +41,9 @@
             </div>
         </section>
 
+        <!-- Bottom Half: Links and Updates -->
         <section class="bottom-half">
+            <!-- Left Column: Links -->
             <div class="links-container">
                 <h3>Find Me Online</h3>
                 <ul>
@@ -37,11 +54,12 @@
                 </ul>
             </div>
 
+            <!-- Right Column: Updates -->
             <div class="updates-container">
                 <h3>Updates</h3>
                 <h4>Latest Publication</h4>
                 <p>"Title of Your Latest Paper" was published in <em>Journal Name</em>. [Optional: Add a link to the paper]</p>
-                
+
                 <h4>Recent Talk</h4>
                 <p>I gave a talk on "Topic of Your Talk" at the <em>Conference/Event Name</em>. [Optional: Add a link to the slides]</p>
             </div>
