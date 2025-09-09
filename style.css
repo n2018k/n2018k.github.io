@@ -188,6 +188,7 @@ nav ul li a.active {
     gap: 20px; /* A little less space than publications */
     align-items: center; /* Vertically center image with text */
     padding-top: 20px;
+    padding-bottom: 24px; /* Add bottom padding to prevent overlap */
 }
 /* Add a border to all but the first update entry for separation */
 .update-entry + .update-entry {
@@ -220,4 +221,5 @@ nav ul li a.active {
 /* --- Fix for Read Paper Button Overlap in Updates Section --- */
 .update-details .publication-link {
     margin-right: 20px; /* Add space to prevent overlap with separator */
+    margin-bottom: 8px; /* Add space below button */
 }
