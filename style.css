@@ -227,4 +227,5 @@ nav ul li a.active {
     width: auto;
     margin-right: 20px;
     margin-bottom: 8px;
+    align-self: flex-start; /* Prevent full width stretch */
 }
