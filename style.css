@@ -222,10 +222,11 @@ nav ul li a.active {
     margin: 0;
 }
 
+/* --- Publication Link Button Sizing Fix --- */
 .update-details .publication-link {
-    display: inline-block;
-    width: auto;
-    margin-right: 20px;
+    display: inline-block !important;
+    width: auto !important;
+    align-self: flex-start !important;
+    margin-right: 0;
     margin-bottom: 8px;
-    align-self: flex-start; /* Prevent full width stretch */
 }
