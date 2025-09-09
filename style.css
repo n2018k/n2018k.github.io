@@ -223,11 +223,8 @@ nav ul li a.active {
 }
 
 .update-details .publication-link {
-    margin-bottom: 0;
-}
-
-/* --- Fix for Read Paper Button Overlap in Updates Section --- */
-.update-details .publication-link {
-    margin-right: 20px; /* Add space to prevent overlap with separator */
-    margin-bottom: 8px; /* Add space below button */
+    display: inline-block;
+    width: auto;
+    margin-right: 20px;
+    margin-bottom: 8px;
 }
