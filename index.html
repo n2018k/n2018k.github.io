@@ -8,19 +8,21 @@
 </head>
 <body>
 
-    <!-- 1. Top Banner -->
-    <header>
-        <h1>Hello There 👋</h1>
-    </header>
+    <div class="sticky-top-container">
+        <!-- 1. Top Banner -->
+        <header>
+            <h1>Hello There 👋</h1>
+        </header>
 
-    <!-- 2. Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="about.html">More Me</a></li>
-            <li><a href="publications.html">Publications</a></li>
-        </ul>
-    </nav>
+        <!-- 2. Navigation Bar -->
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">More Me</a></li>
+                <li><a href="publications.html">Publications</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- 3. Main Content Area -->
     <main class="content-wrapper">
@@ -42,7 +44,7 @@
             <div class="links-container">
                 <h3>Find Me Online</h3>
                 <ul>
-                    <li><a href="https://scholar.google.com/citations?user=viDZu24AAAAJ&hl=en&authuser=2" target="_blank">Google Scholar</a></li>
+                     <li><a href="https://scholar.google.com/citations?user=viDZu24AAAAJ&hl=en&authuser=2" target="_blank">Google Scholar</a></li>
                     <li><a href="https://x.com/namankatyal14" target="_blank">Twitter</a></li>
                     <li><a href="https://www.linkedin.com/in/naman-katyal-b921a3a1/" target="_blank">LinkedIn</a></li>
                     <li><a href="https://gitlab.com/nkatyal95" target="_blank">GitLab</a></li>
@@ -51,11 +53,32 @@
             </div>
             <div class="updates-container">
                 <h3>Updates</h3>
-                <h4>Latest Publication</h4>
-                <p>"Title of Your Latest Paper" was published in <em>Journal Name</em>. [Optional: Add a link to the paper]</p>
+                
+                <!-- NEW STRUCTURE FOR UPDATES -->
+                <div class="updates-list">
+                    <!-- Update Entry 1 -->
+                    <article class="update-entry">
+                        <div class="update-image">
+                            <img src="IMAGES/placeholder-update-1.jpg" alt="Update image for latest publication">
+                        </div>
+                        <div class="update-details">
+                            <h4>Latest Publication</h4>
+                            <p>"Title of Your Latest Paper" was published in <em>Journal Name</em>. [Optional: Add a link to the paper]</p>
+                        </div>
+                    </article>
+                    
+                    <!-- Update Entry 2 -->
+                    <article class="update-entry">
+                        <div class="update-image">
+                            <img src="IMAGES/placeholder-update-2.jpg" alt="Update image for recent talk">
+                        </div>
+                        <div class="update-details">
+                            <h4>Recent Talk</h4>
+                            <p>I gave a talk on "Topic of Your Talk" at the <em>Conference/Event Name</em>. [Optional: Add a link to the slides]</p>
+                        </div>
+                    </article>
+                </div>
 
-                <h4>Recent Talk</h4>
-                <p>I gave a talk on "Topic of Your Talk" at the <em>Conference/Event Name</em>. [Optional: Add a link to the slides]</p>
             </div>
         </section>
     </main>

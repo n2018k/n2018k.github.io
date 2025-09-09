@@ -15,6 +15,13 @@ body {
     padding: 0 20px;
 }
 
+/* --- Sticky Top Container --- */
+.sticky-top-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
 /* --- Header Banner --- */
 header {
     background-color: #343a40;
@@ -28,9 +35,6 @@ nav {
     background-color: #ffffff;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    position: sticky;
-    top: 0;
-    z-index: 100;
 }
 
 nav ul {
@@ -65,7 +69,7 @@ nav ul li a.active {
 .top-half, .bottom-half {
     display: flex;
     gap: 40px;
-    align-items: center;
+    align-items: flex-start; /* Changed to flex-start for better alignment */
     padding: 40px 0;
     border-bottom: 1px solid #e0e0e0;
 }
@@ -136,14 +140,14 @@ nav ul li a.active {
 /* --- Publication Page Styles --- */
 .publication-entry {
     display: flex;
-    gap: 30px; /* Space between image and text */
-    align-items: flex-start; /* Aligns items to the top */
+    gap: 30px;
+    align-items: flex-start;
     padding: 30px 0;
     border-bottom: 1px solid #e0e0e0;
 }
 
 .publication-image {
-    flex-basis: 300px; /* Set a fixed width for the image container */
+    flex-basis: 300px;
     flex-shrink: 0;
 }
 
@@ -155,7 +159,7 @@ nav ul li a.active {
 }
 
 .publication-details {
-    flex: 1; /* Allows the text to take up the remaining space */
+    flex: 1;
 }
 
 .publication-details h3 {
@@ -178,3 +182,37 @@ nav ul li a.active {
     background-color: #0056b3;
 }
 
+/* --- Homepage Updates Section Styles (NEW!) --- */
+.update-entry {
+    display: flex;
+    gap: 20px; /* A little less space than publications */
+    align-items: center; /* Vertically center image with text */
+    padding-top: 20px;
+}
+/* Add a border to all but the first update entry for separation */
+.update-entry + .update-entry {
+    border-top: 1px solid #e0e0e0;
+}
+
+.update-image {
+    flex-basis: 150px; /* Smaller images for updates */
+    flex-shrink: 0;
+}
+
+.update-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.update-details {
+    flex: 1;
+}
+
+.update-details h4 {
+    margin: 0 0 5px 0; /* Adjust spacing around the heading */
+}
+
+.update-details p {
+    margin: 0;
+}
