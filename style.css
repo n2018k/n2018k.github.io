@@ -208,6 +208,10 @@ nav ul li a.active {
 
 .update-details {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-bottom: 24px; /* Ensure space below button */
 }
 
 .update-details h4 {
@@ -216,6 +220,10 @@ nav ul li a.active {
 
 .update-details p {
     margin: 0;
+}
+
+.update-details .publication-link {
+    margin-bottom: 0;
 }
 
 /* --- Fix for Read Paper Button Overlap in Updates Section --- */
