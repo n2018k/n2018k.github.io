@@ -236,17 +236,17 @@ nav ul li a.active {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  margin: 16px auto;
+  width: 32px;
+  height: 32px;
+  margin: 8px 0;
   border-radius: 50%;
   background: #eaf4fd;
   transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .social-icon img {
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
 }
 .social-icon:hover {
   background: #1da1f2;
