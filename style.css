@@ -230,3 +230,26 @@ nav ul li a.active {
     margin-right: 0;
     margin-bottom: 8px;
 }
+
+/* --- Social Icon Styling Example (Twitter) --- */
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 16px auto;
+  border-radius: 50%;
+  background: #eaf4fd;
+  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.social-icon img {
+  width: 28px;
+  height: 28px;
+}
+.social-icon:hover {
+  background: #1da1f2;
+  box-shadow: 0 4px 16px rgba(29,161,242,0.15);
+  transform: scale(1.08);
+}
