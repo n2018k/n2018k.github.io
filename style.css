@@ -231,12 +231,12 @@ nav ul li a.active {
     margin-bottom: 8px;
 }
 
-/* --- Social Icon Styling Example (Twitter) --- */
+/* --- Social Icon Styling (All Icons) --- */
 .social-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
+  width: 32px;
   height: 32px;
   margin: 8px 0;
   border-radius: 50%;
@@ -244,12 +244,22 @@ nav ul li a.active {
   transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-.social-icon img {
-  width: 24px;
+.social-icon-img {
+  width: 20px;
   height: 20px;
 }
 .social-icon:hover {
   background: #1da1f2;
   box-shadow: 0 4px 16px rgba(29,161,242,0.15);
   transform: scale(1.08);
+}
+
+/* --- Centered and Enlarged Updates Heading --- */
+.updates-heading {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  letter-spacing: 0.5px;
 }
