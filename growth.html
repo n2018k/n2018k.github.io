@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voronoi Growth with Triangular Distance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        canvas {
+            background-color: #1f2937; /* gray-800 */
+            border-radius: 0.5rem;
+        }
+        /* Custom scrollbar for better aesthetics */
+        .info-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+        .info-panel::-webkit-scrollbar-track {
+            background: #1f2937; /* gray-800 */
+        }
+        .info-panel::-webkit-scrollbar-thumb {
+            background: #4b5563; /* gray-600 */
+            border-radius: 4px;
+        }
+        .info-panel::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* gray-500 */
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-2">
+            <canvas id="growthCanvas"></canvas>
+        </div>
+
+        <div class="bg-gray-800 p-6 rounded-lg shadow-2xl flex flex-col justify-start space-y-4 max-h-[90vh] overflow-y-auto info-panel">
+            <div>
+                <h1 class="text-2xl font-bold text-white mb-2">Triangular Distance Growth</h1>
+                <p class="text-gray-400 mb-4">
+                    This animation shows the "true" growth of Voronoi regions using a triangular distance metric. 
+                    Territories expand from their seeds and stop where they meet neighbors.
+                </p>
+            </div>
+            
+            <div class="bg-gray-700 p-4 rounded-lg">
+                <h2 class="text-lg font-semibold text-white mb-2">Reference Shape</h2>
+                <canvas id="refTriangleCanvas" width="100" height="100" class="mx-auto"></canvas>
+            </div>
+
+            <div class="bg-gray-700 p-4 rounded-lg">
+                <h2 class="text-lg font-semibold text-white mb-2">Final Diagram Preview</h2>
+                <canvas id="previewCanvas" width="200" height="200" class="mx-auto bg-gray-900"></canvas>
+            </div>
+
+            <div class="space-y-4 mt-auto sticky bottom-0 bg-gray-800 py-4">
+                <div class="flex w-full gap-4">
+                     <button id="pausePlayButton" class="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg">
+                        Pause
+                    </button>
+                    <button id="restartButton" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg">
+                        New Random Seeds
+                    </button>
+                </div>
+                <div>
+                    <label for="generatorSlider" class="block mb-2 text-sm font-medium text-gray-300">Number of Seeds: <span id="generatorCountSpan">4</span></label>
+                    <input id="generatorSlider" type="range" min="3" max="10" value="4" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
+                </div>
+                <div>
+                    <label for="speedSlider" class="block mb-2 text-sm font-medium text-gray-300">Growth Speed</label>
+                    <input id="speedSlider" type="range" min="0.1" max="2" value="0.5" step="0.1" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('growthCanvas');
+        const ctx = canvas.getContext('2d');
+        const refCanvas = document.getElementById('refTriangleCanvas');
+        const refCtx = refCanvas.getContext('2d');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        const restartButton = document.getElementById('restartButton');
+        const pausePlayButton = document.getElementById('pausePlayButton');
+        const speedSlider = document.getElementById('speedSlider');
+        const generatorSlider = document.getElementById('generatorSlider');
+        const generatorCountSpan = document.getElementById('generatorCountSpan');
+
+        let generators = [];
+        const colors = ['#f87171', '#60a5fa', '#4ade80', '#c084fc', '#facc15', '#22d3ee', '#f472b6', '#fb923c', '#2dd4bf', '#a3e635'];
+        let width, height;
+        let growthFactor = 0;
+        let animationId;
+        let isPaused = false;
+        let isUserPaused = false;
+        let currentSpeed = 0.5;
+        let numGenerators = 4;
+
+        const refTriangleVertices = [
+            { x: 0, y: -20 },
+            { x: 20, y: 15 },
+            { x: -20, y: 15 }
+        ];
+
+        function setupCanvas() {
+            const container = canvas.parentElement;
+            const size = Math.min(container.clientWidth, window.innerHeight * 0.85);
+            width = Math.floor(size);
+            height = Math.floor(size);
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function generatePoints() {
+            generators = [];
+            for (let i = 0; i < numGenerators; i++) {
+                generators.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    color: colors[i]
+                });
+            }
+        }
+        
+        function drawRefTriangle() {
+            refCtx.clearRect(0, 0, refCanvas.width, refCanvas.height);
+            refCtx.fillStyle = '#374151'; // gray-700
+            refCtx.strokeStyle = '#e5e7eb'; // gray-200
+            refCtx.lineWidth = 2;
+            refCtx.beginPath();
+            refCtx.moveTo(refCanvas.width / 2 + refTriangleVertices[0].x, refCanvas.height / 2 + refTriangleVertices[0].y);
+            refCtx.lineTo(refCanvas.width / 2 + refTriangleVertices[1].x, refCanvas.height / 2 + refTriangleVertices[1].y);
+            refCtx.lineTo(refCanvas.width / 2 + refTriangleVertices[2].x, refCanvas.height / 2 + refTriangleVertices[2].y);
+            refCtx.closePath();
+            refCtx.stroke();
+        }
+
+        function sign(p1, p2, p3) {
+            return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+        }
+
+        function pointInTriangle(pt, v1, v2, v3) {
+            const d1 = sign(pt, v1, v2);
+            const d2 = sign(pt, v2, v3);
+            const d3 = sign(pt, v3, v1);
+            const has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+            const has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+            return !(has_neg && has_pos);
+        }
+        
+        function triangularDistance(px, py, generator) {
+            const relX = px - generator.x;
+            const relY = py - generator.y;
+            if (relX === 0 && relY === 0) return 0;
+            let low = 0;
+            let high = Math.max(width, height) * 2;
+            for (let i = 0; i < 20; i++) {
+                const mid = (low + high) / 2;
+                if (mid < 1e-6) break;
+                const scaledVertices = refTriangleVertices.map(v => ({ x: v.x * mid, y: v.y * mid }));
+                if (pointInTriangle({ x: relX, y: relY }, scaledVertices[0], scaledVertices[1], scaledVertices[2])) {
+                    high = mid; 
+                } else {
+                    low = mid;
+                }
+            }
+            return high;
+        }
+        
+        function drawTrueVoronoiGrowth() {
+            if (width === 0 || height === 0) return;
+            const imageData = ctx.createImageData(width, height);
+            const data = imageData.data;
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    let minDist = Infinity;
+                    let closestGenerator = -1;
+                    for (let i = 0; i < generators.length; i++) {
+                        const d = triangularDistance(x, y, generators[i]);
+                        if (d < minDist) {
+                            minDist = d;
+                            closestGenerator = i;
+                        }
+                    }
+                    if (closestGenerator !== -1 && minDist <= growthFactor) {
+                        const color = hexToRgb(generators[closestGenerator].color);
+                        const index = (y * width + x) * 4;
+                        data[index] = color.r;
+                        data[index + 1] = color.g;
+                        data[index + 2] = color.b;
+                        data[index + 3] = 255;
+                    }
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function drawPreviewVoronoi() {
+            if (!width || !generators.length) return;
+            const pWidth = previewCanvas.width;
+            const pHeight = previewCanvas.height;
+            const imageData = previewCtx.createImageData(pWidth, pHeight);
+            const data = imageData.data;
+            const regionData = new Int8Array(pWidth * pHeight);
+
+            for (let y = 0; y < pHeight; y++) {
+                for (let x = 0; x < pWidth; x++) {
+                    const mainX = (x / pWidth) * width;
+                    const mainY = (y / pHeight) * height;
+                    let minDist = Infinity;
+                    let closestGenerator = -1;
+                    for (let i = 0; i < generators.length; i++) {
+                        const d = triangularDistance(mainX, mainY, generators[i]);
+                        if (d < minDist) {
+                            minDist = d;
+                            closestGenerator = i;
+                        }
+                    }
+                    regionData[y * pWidth + x] = closestGenerator;
+                }
+            }
+            
+            previewCtx.clearRect(0, 0, pWidth, pHeight);
+            previewCtx.fillStyle = 'white';
+            for (let y = 0; y < pHeight - 1; y++) {
+                for (let x = 0; x < pWidth - 1; x++) {
+                    const center = regionData[y * pWidth + x];
+                    const right = regionData[y * pWidth + x + 1];
+                    const down = regionData[(y + 1) * pWidth + x];
+                    if (center !== right || center !== down) {
+                       previewCtx.fillRect(x, y, 1, 1);
+                    }
+                }
+            }
+
+            generators.forEach(g => {
+                previewCtx.beginPath();
+                previewCtx.arc((g.x / width) * pWidth, (g.y / height) * pHeight, 3, 0, 2 * Math.PI);
+                previewCtx.fillStyle = g.color;
+                previewCtx.fill();
+            });
+        }
+
+        function drawFinalVoronoi() {
+             if (width === 0 || height === 0) {
+                setTimeout(() => {
+                    isPaused = false;
+                    growthFactor = 0;
+                    if (!isUserPaused) animationId = requestAnimationFrame(animate);
+                }, 3000);
+                return;
+            }
+            isPaused = true;
+            drawTrueVoronoiGrowth(); 
+            const finalGrowthFactor = growthFactor;
+            
+            const finalImageData = ctx.getImageData(0, 0, width, height);
+            const finalData = finalImageData.data;
+            const edgeData = new Uint8Array(width * height);
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    const cIdx = (y * width + x) * 4;
+                    const c = finalData[cIdx] | (finalData[cIdx + 1] << 8) | (finalData[cIdx + 2] << 16);
+                    const rIdx = (y * width + (x + 1)) * 4;
+                    const r = finalData[rIdx] | (finalData[rIdx + 1] << 8) | (finalData[rIdx + 2] << 16);
+                    const dIdx = ((y + 1) * width + x) * 4;
+                    const d = finalData[dIdx] | (finalData[dIdx + 1] << 8) | (finalData[dIdx + 2] << 16);
+                    if (c !== r || c !== d) edgeData[y * width + x] = 1;
+                }
+            }
+            for (let i = 0; i < edgeData.length; i++) {
+                if (edgeData[i] === 1) {
+                    const idx = i * 4;
+                    finalData[idx] = 0; finalData[idx + 1] = 0; finalData[idx + 2] = 0;
+                }
+            }
+            ctx.putImageData(finalImageData, 0, 0);
+
+            ctx.setLineDash([4, 4]);
+            ctx.lineWidth = 1.5;
+            generators.forEach(g => {
+                ctx.strokeStyle = g.color + '99';
+                ctx.beginPath();
+                const v0 = refTriangleVertices[0];
+                ctx.moveTo(g.x + v0.x * finalGrowthFactor, g.y + v0.y * finalGrowthFactor);
+                refTriangleVertices.slice(1).forEach(v => {
+                    ctx.lineTo(g.x + v.x * finalGrowthFactor, g.y + v.y * finalGrowthFactor);
+                });
+                ctx.closePath();
+                ctx.stroke();
+            });
+
+            setTimeout(() => {
+                isPaused = false;
+                growthFactor = 0;
+                if (!isUserPaused) animationId = requestAnimationFrame(animate);
+            }, 3000);
+        }
+
+        function animate() {
+            if (isUserPaused || isPaused) return;
+            growthFactor += currentSpeed;
+            drawTrueVoronoiGrowth();
+            const maxDist = triangularDistance(width, height, {x:0, y:0});
+            if (growthFactor >= maxDist * 1.5) {
+                drawFinalVoronoi();
+            } else {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+
+        function main() {
+            if (animationId) cancelAnimationFrame(animationId);
+            isPaused = false;
+            isUserPaused = false;
+            pausePlayButton.textContent = 'Pause';
+            
+            numGenerators = parseInt(generatorSlider.value);
+            generatorCountSpan.textContent = numGenerators;
+
+            setupCanvas();
+            generatePoints();
+            drawRefTriangle();
+            drawPreviewVoronoi();
+            growthFactor = 0;
+            currentSpeed = parseFloat(speedSlider.value);
+            animate();
+        }
+        
+        pausePlayButton.addEventListener('click', () => {
+            isUserPaused = !isUserPaused;
+            if (isUserPaused) {
+                cancelAnimationFrame(animationId);
+                pausePlayButton.textContent = 'Play';
+            } else {
+                requestAnimationFrame(animate);
+                pausePlayButton.textContent = 'Pause';
+            }
+        });
+
+        speedSlider.addEventListener('input', (e) => {
+            currentSpeed = parseFloat(e.target.value);
+        });
+
+        generatorSlider.addEventListener('input', (e) => {
+             generatorCountSpan.textContent = e.target.value;
+        });
+        
+        generatorSlider.addEventListener('change', main);
+
+
+        restartButton.addEventListener('click', main);
+        window.addEventListener('resize', main);
+
+        main();
+    </script>
+</body>
+</html>
