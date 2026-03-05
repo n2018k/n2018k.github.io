@@ -69,9 +69,19 @@ nav ul li a.active {
 .top-half, .bottom-half {
     display: flex;
     gap: 40px;
-    align-items: flex-start; /* Changed to flex-start for better alignment */
+    align-items: flex-start;
     padding: 40px 0;
     border-bottom: 1px solid #e0e0e0;
+}
+
+@media (max-width: 600px) {
+    .top-half, .bottom-half {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        padding: 24px 0;
+    }
+}
 }
 
 /* --- Profile Picture Styling --- */
