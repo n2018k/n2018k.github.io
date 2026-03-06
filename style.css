@@ -85,6 +85,21 @@ nav ul li a.active {
         align-items: center;
         padding: 24px 0;
     }
+    .publication-entry {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        text-align: center;
+    }
+    .publication-image {
+        width: 100%;
+        max-width: 320px;
+        margin-bottom: 12px;
+    }
+    .publication-details {
+        width: 100%;
+        text-align: left;
+    }
 }
 
 /* --- Profile Picture Styling --- */
