@@ -74,14 +74,17 @@ nav ul li a.active {
     border-bottom: 1px solid #e0e0e0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
+    .content-wrapper {
+        max-width: 100%;
+        padding: 0 8px;
+    }
     .top-half, .bottom-half {
         flex-direction: column;
         gap: 16px;
         align-items: center;
         padding: 24px 0;
     }
-}
 }
 
 /* --- Profile Picture Styling --- */
